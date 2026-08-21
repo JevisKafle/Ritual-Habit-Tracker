@@ -1,0 +1,53 @@
+'use client'
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { usePathname } from 'next/navigation'
+
+
+const navItems = [
+    { id: 1, name: 'Home', path: '/' },
+    { id: 2, name: 'About', path: '/about' },
+    { id: 3, name: 'Contact', path: '/contact' },
+]
+
+export default function Navbar() {
+    const pathname = usePathname()
+    return (
+        <nav className="w-full flex items-center justify-between px-8 py-4 bg-hover-surface">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-primary">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                        <path d="M8 2C5.8 2 4 4 4 6.5c0 3.2 4 7.5 4 7.5s4-4.3 4-7.5C12 4 10.2 2 8 2z" fill="white" />
+                        <circle cx="8" cy="6.5" r="1.8" fill="rgba(255,255,255,0.5)" />
+                    </svg>
+                </div>
+                <span className="text-sm font-semibold tracking-wide text-primary-dark">
+                    RITUAL
+                </span>
+            </div>
+
+            <div className="flex items-center gap-1">
+                {navItems.map((item) => {
+                    const isActive = pathname === item.path
+                    return (
+                        <Link
+                            key={item.id}
+                            href={item.path}
+                            className={`text-sm px-3 py-1.5 rounded-lg transition-all duration-150 ${isActive
+                                    ? 'bg-border text-primary-dark'
+                                    : 'text-muted-green hover:bg-border hover:text-primary-dark'
+                                }`}
+                        >
+                            {item.name}
+                        </Link>
+                    )
+                })}
+
+                <Button className="ml-3 px-4 py-1.5 text-sm font-semibold rounded-lg transition-all duration-150 bg-primary text-white hover:bg-primary-dark">
+                    Login
+                </Button>
+            </div>
+        </nav>
+    )
+}
