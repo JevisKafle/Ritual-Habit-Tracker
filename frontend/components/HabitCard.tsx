@@ -49,8 +49,8 @@ const HabitCard = ({
             <CardHeader className="pb-2">
                 <div className="flex items-start justify-between">
                     <div>
-                        <CardTitle className="text-base">{title}</CardTitle>
-                        <CardDescription className="text-xs">
+                        <CardTitle className="text-2xl font-bold">{title}</CardTitle>
+                        <CardDescription className="text-muted-foreground">
                             {desc}
                         </CardDescription>
                     </div>
@@ -101,7 +101,7 @@ const HabitCard = ({
                     <Button
                         variant="default"
                         size="sm"
-                        className="h-7 px-3 text-xs text-white cursor-pointer"
+                        className="h-7 p-4 text-sm text-white cursor-pointer rounded-2xl"
                     >
                         Check in
                     </Button>

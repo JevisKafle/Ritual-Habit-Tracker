@@ -20,7 +20,7 @@
 }
 
 body {
-  background-color: var(--page);
+  background-color: var(--color-page);
 }
 html {
   scrollbar-width: thin;
