@@ -22,3 +22,7 @@
 body {
   background-color: var(--page);
 }
+html {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}

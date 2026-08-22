@@ -13,7 +13,7 @@ const navItems = [
 export default function Navbar() {
     const pathname = usePathname()
     return (
-        <nav className="w-full flex items-center justify-between px-8 py-4 bg-hover-surface">
+        <nav className="w-full flex items-center justify-between px-8 py-4 bg-hover-surface sticky top-0 z-50 border-b border-border">
             {/* Logo */}
             <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-primary">
@@ -35,8 +35,8 @@ export default function Navbar() {
                             key={item.id}
                             href={item.path}
                             className={`text-sm px-3 py-1.5 rounded-lg transition-all duration-150 ${isActive
-                                    ? 'bg-border text-primary-dark'
-                                    : 'text-muted-green hover:bg-border hover:text-primary-dark'
+                                ? 'bg-border text-primary-dark'
+                                : 'text-muted-green hover:bg-border hover:text-primary-dark'
                                 }`}
                         >
                             {item.name}
@@ -44,7 +44,7 @@ export default function Navbar() {
                     )
                 })}
 
-                <Button className="ml-3 px-4 py-1.5 text-sm font-semibold rounded-lg transition-all duration-150 bg-primary text-white hover:bg-primary-dark">
+                <Button className="ml-3 px-4 py-5 text-sm font-semibold rounded-lg transition-all duration-150 bg-primary text-white hover:bg-primary-dark cursor-pointer">
                     Login
                 </Button>
             </div>
