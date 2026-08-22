@@ -45,7 +45,7 @@ const HabitCard = ({
     const last7 = dateRange(7);
 
     return (
-        <Card className="w-full max-w-3xl ring-0 shadow-md hover:shadow-2xl transition-all duration-300">
+        <Card className="w-full max-w-3xl lg:max-w-4xl xl:max-w-5xl ring-0 shadow-md hover:shadow-2xl transition-all duration-300">
             <CardHeader className="pb-2">
                 <div className="flex items-start justify-between">
                     <div>
