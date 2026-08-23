@@ -17,6 +17,11 @@
 
   --color-error: #e57373;
   --color-primary-text: #ffffff;
+  --color-foreground: #1b4332;
+  --color-secondary: #f0faf4;
+  --color-secondary-foreground: #2d6a4f;
+  --color-muted: #d8f3dc;
+  --color-muted-foreground: #52796f;
 }
 
 body {
