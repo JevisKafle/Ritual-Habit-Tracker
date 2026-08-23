@@ -63,7 +63,7 @@ const HabitCard = ({
 
             <CardContent className="pb-2">
                 {/* Last 7 days */}
-                <div className="flex items-center gap-1.5 mt-4">
+                <div className="flex items-center gap-1.5">
                     {last7.map((date) => {
                         const done = checkIns.includes(date);
                         const isToday = date === today;
@@ -71,14 +71,17 @@ const HabitCard = ({
                         return (
                             <div
                                 key={date}
-                                className="flex-1 h-2 rounded-full transition-all"
+                                className={`flex-1 h-2 rounded-full transition-all ${done
+                                        ? `bg-[${color}]`
+                                        : 'bg-gray-200 dark:bg-gray-400'
+                                    }`}
                                 style={{
-                                    background: done ? color : "var(--muted)",
                                     opacity: done ? 1 : 0.5,
                                     boxShadow:
                                         isToday && done
                                             ? `0 0 0 2px ${color}30`
                                             : "none",
+                                    background: done ? color : undefined,
                                 }}
                             />
                         );

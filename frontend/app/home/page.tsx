@@ -1,4 +1,4 @@
-"use client"
+
 import HabitCard from "@/components/HabitCard";
 import { Progress } from "@/components/ui/progress";
 import { dummyHabits } from "@/lib/dummy";
@@ -63,9 +63,7 @@ export default function HomePage() {
         </div>
       </div>
       <button
-        onClick={() => console.log("Test")}
-        className="fixed bottom-6 right-6 flex items-center justify-center w-14 h-14 rounded-full shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200 z-50 cursor-pointer"
-        style={{ background: "var(--color-primary)", color: "var(--color-primary-text)" }}
+        className="fixed bg-primary text-primary-text bottom-6 right-6 flex items-center justify-center w-14 h-14 rounded-full shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200 z-50 cursor-pointer"
       >
         <IconPlus />
       </button>
