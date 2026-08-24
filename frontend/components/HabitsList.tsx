@@ -30,6 +30,7 @@ export default function HabitList({ initialHabits }: HabitListProps) {
         color: string;
     }) => {
         const newHabit = {
+            id: crypto.randomUUID(),
             title: data.title,
             desc: data.desc,
             isDoneToday: false,
@@ -79,7 +80,8 @@ export default function HabitList({ initialHabits }: HabitListProps) {
                 <div className="flex flex-col gap-4">
                     {habits.map((habit) => (
                         <HabitCard
-                            key={habit.title}
+                            id={habit.id}
+                            key={habit.id}
                             title={habit.title}
                             desc={habit.desc}
                             isDoneToday={habit.isDoneToday}

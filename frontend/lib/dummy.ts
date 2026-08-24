@@ -1,5 +1,6 @@
 export const dummyHabits = [
   {
+    id: "1",
     title: "Morning Exercise",
     desc: "30 minutes of exercise",
     isDoneToday: true,
@@ -14,6 +15,7 @@ export const dummyHabits = [
     ],
   },
   {
+    id: "2",
     title: "Read a Book",
     desc: "Read at least 20 pages",
     isDoneToday: false,
@@ -26,6 +28,7 @@ export const dummyHabits = [
     ],
   },
   {
+    id: "3",
     title: "Drink Water",
     desc: "Drink 8 glasses of water",
     isDoneToday: true,
@@ -39,6 +42,7 @@ export const dummyHabits = [
     ],
   },
   {
+    id: "4",
     title: "Meditation",
     desc: "10 minutes of mindfulness",
     isDoneToday: false,
@@ -50,6 +54,7 @@ export const dummyHabits = [
     ],
   },
   {
+    id: "5",
     title: "Learn Coding",
     desc: "Practice coding for 1 hour",
     isDoneToday: true,
