@@ -1,4 +1,3 @@
-// components/HabitList.tsx
 "use client";
 
 import { useState } from "react";
@@ -99,7 +98,7 @@ export default function HabitList({ initialHabits }: HabitListProps) {
                 <IconPlus />
             </button>
 
-            {/* Habit Modal */}
+            {/*Modal */}
             {isModalOpen && (
                 <HabitModal
                     habit={null}
