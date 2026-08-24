@@ -1,8 +1,6 @@
 'use client'
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
-
 
 const navItems = [
     { id: 1, name: 'Home', path: '/' },
@@ -44,9 +42,12 @@ export default function Navbar() {
                     )
                 })}
 
-                <Button className="ml-3 px-4 py-5 text-sm font-semibold rounded-lg transition-all duration-150 bg-primary text-white hover:bg-primary-dark cursor-pointer">
+                <Link
+                    href="/login"
+                    className="ml-3 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-150 bg-primary text-white hover:bg-primary-dark cursor-pointer"
+                >
                     Login
-                </Button>
+                </Link>
             </div>
         </nav>
     )
