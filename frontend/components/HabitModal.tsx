@@ -161,12 +161,12 @@ export default function HabitModal({ habit, onSave, onCancel }: HabitModalProps)
                         >
                             Color
                         </label>
-                        <div className="flex gap-2 flex-wrap">
+                        <div className="flex gap-5 flex-wrap">
                             {HABIT_COLORS.map((c) => (
                                 <button
                                     key={c}
                                     onClick={() => setColor(c)}
-                                    className="w-7 h-7 rounded-full transition-all duration-150"
+                                    className="w-7 h-7 rounded-full transition-all duration-150 "
                                     style={{
                                         background: c,
                                         boxShadow:
