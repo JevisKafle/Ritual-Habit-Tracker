@@ -1,4 +1,4 @@
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from django.utils import timezone
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -43,7 +43,7 @@ class HabitViewSet(viewsets.ModelViewSet):
     @checkin.mapping.delete
     def undo_checkin(self, request, pk=None):
         habit = self.get_object()
-        date_str = request.data.get("date")
+        date_str = request.query_params.get("date")
         date = (
             datetime.strptime(date_str, "%Y-%m-%d").date()
             if date_str
