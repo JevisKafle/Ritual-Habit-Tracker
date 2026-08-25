@@ -47,7 +47,7 @@ const HabitCard = ({
                 <CardHeader className="pb-2">
                     <div className="flex items-start justify-between">
                         <div>
-                            <CardTitle className="text-2xl font-bold">{title}</CardTitle>
+                            <CardTitle className="text-2xl font-bold">{color}{title}</CardTitle>
                             <CardDescription className="text-muted-foreground">
                                 {desc}
                             </CardDescription>

@@ -6,6 +6,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import HabitHeatmap from "@/components/HabitHeatmap";
 
 const stats = [
     {
@@ -62,7 +63,6 @@ const HabitDetailPage = async ({ params }: { params: Promise<{ id: string }> }) 
                     </div>
                 </CardHeader>
             </Card>
-            <br />
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                 {stats.map((stat) => (
                     <Card key={stat.label} className="rounded-2xl">
@@ -78,7 +78,14 @@ const HabitDetailPage = async ({ params }: { params: Promise<{ id: string }> }) 
                     </Card>
                 ))}
             </div>
-
+            <Card className="ring-0 shadow-md">
+                <CardHeader className="pb-2">
+                    <CardTitle className="text-lg font-bold">Check-in History</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <HabitHeatmap checkIns={habit.checkIns} color={habit.color} />
+                </CardContent>
+            </Card>
         </main>
     )
 }
