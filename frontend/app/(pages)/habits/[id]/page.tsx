@@ -7,6 +7,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import HabitHeatmap from "@/components/HabitHeatmap";
+import { Button } from "@/components/ui/button";
 
 const stats = [
     {
@@ -43,7 +44,13 @@ const HabitDetailPage = async ({ params }: { params: Promise<{ id: string }> }) 
                 <CardHeader className="pb-2">
                     <div className="flex items-start justify-between">
                         <div>
-                            <CardTitle className="text-2xl font-bold">{habit.title}</CardTitle>
+                            <CardTitle className="text-2xl font-bold flex items-center gap-2">
+                                <div
+                                    className="w-4 h-4 rounded-full shrink-0"
+                                    style={{ background: habit.color }}
+                                />
+                                {habit.title}
+                            </CardTitle>
                             <CardDescription className="text-muted-foreground py-2">
                                 {habit.desc}
                             </CardDescription>
@@ -86,6 +93,13 @@ const HabitDetailPage = async ({ params }: { params: Promise<{ id: string }> }) 
                     <HabitHeatmap checkIns={habit.checkIns} color={habit.color} />
                 </CardContent>
             </Card>
+            {habit.isDoneToday ? (
+                <Button className="w-full py-6 rounded-2xl text-primary-text text-md bg-muted-green " variant="ghost" disabled>Checked in</Button>
+            )
+                : (
+                    <Button className="w-full py-6 rounded-2xl text-primary-text cursor-pointer text-md">Check in today</Button>
+                )}
+
         </main>
     )
 }
