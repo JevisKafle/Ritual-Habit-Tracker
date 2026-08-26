@@ -138,6 +138,6 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 SECURE_SSL_REDIRECT = False
 
 CORS_ALLOWED_ORIGINS = [
-    "https://localhost:5173.com",
+    "https://localhost:5173",
     "http://localhost:3000",
 ]
