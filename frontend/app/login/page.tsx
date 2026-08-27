@@ -14,7 +14,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-background">
       <div className="w-full max-w-sm">
-        {/* Brand */}
+          {/*Ritual*/}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-4 bg-primary">
             <div className="w-12 h-12 rounded-2xl flex items-center justify-center  bg-primary">
