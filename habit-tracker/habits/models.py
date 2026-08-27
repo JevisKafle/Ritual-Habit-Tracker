@@ -21,7 +21,7 @@ class Habit(models.Model):
     frequency = models.CharField(
         max_length=10, choices=FREQUENCY_CHOICE, default="daily"
     )
-    color = models.CharField(max_length=10, choices=COLOR_CHOICES, default="greem")
+    color = models.CharField(max_length=10, choices=COLOR_CHOICES, default="green")
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
