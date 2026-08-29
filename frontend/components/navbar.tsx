@@ -1,6 +1,8 @@
 'use client'
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
+import { useState, useEffect } from "react"
+import Image from "next/image"
 
 const navItems = [
     { id: 1, name: 'Home', path: '/' },
@@ -9,6 +11,13 @@ const navItems = [
 
 export default function Navbar() {
     const pathname = usePathname()
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+    useEffect(() => {
+        const token = localStorage.getItem("access_token")
+        setIsLoggedIn(!!token)
+    }, [pathname])
+
     return (
         <nav className="w-full flex items-center justify-between px-8 py-4 bg-hover-surface sticky top-0 z-50 border-b border-border">
             {/* Logo */}
@@ -40,13 +49,27 @@ export default function Navbar() {
                         </Link>
                     )
                 })}
-
-                <Link
-                    href="/login"
-                    className="ml-3 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-150 bg-primary text-white hover:bg-primary-dark cursor-pointer"
-                >
-                    Login
+                {isLoggedIn ? (
+                <Link href="/profile" className="ml-3">
+                    <Image
+                        src="/default_avatar.png"
+                        alt="User profile"
+                        width={32}
+                        height={32}
+                        className="rounded-full border border-border hover:opacity-80 transition-opacity cursor-pointer"
+                    />
                 </Link>
+                ) : (
+                    <Link
+                        href="/login"
+                        className="ml-3 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-150 bg-primary text-white hover:bg-primary-dark cursor-pointer"
+                    >
+                        Login
+                    </Link>
+                )}
+
+
+
             </div>
         </nav>
     )
