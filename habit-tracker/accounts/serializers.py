@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -16,3 +17,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data["password"],
         )
         return user
+    
+class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = "email"

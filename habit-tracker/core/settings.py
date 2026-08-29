@@ -141,3 +141,10 @@ CORS_ALLOWED_ORIGINS = [
     "https://localhost:5173",
     "http://localhost:3000",
 ]
+
+#jwt
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
