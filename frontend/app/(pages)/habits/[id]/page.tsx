@@ -1,4 +1,4 @@
-import { dummyHabits } from "@/lib/dummy";
+import { dummyHabits } from "@/utils/dummy";
 import {
     Card,
     CardContent,
