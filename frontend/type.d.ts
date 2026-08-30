@@ -32,3 +32,10 @@ export interface HabitCardProps {
   checkIns: string[];
   color: string;
 }
+
+type User = {
+  id: number
+  email: string
+  name: string
+  username: string
+}

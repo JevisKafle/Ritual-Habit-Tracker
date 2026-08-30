@@ -21,3 +21,9 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
     username_field = "email"
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ["id", "email", "name", "username", "date_joined"]
+        read_only_fields = fields
