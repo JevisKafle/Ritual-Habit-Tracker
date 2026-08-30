@@ -116,6 +116,11 @@ export default function RegisterPage() {
             >
               Register
             </button>
+            {error && (
+              <p role="alert" className="text-sm text-error">
+                {error}
+              </p>
+            )}
           </form>
         </div>
 

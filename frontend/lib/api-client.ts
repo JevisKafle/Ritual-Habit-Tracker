@@ -5,7 +5,7 @@ export async function registerUser(data: {
   email: string;
   password: string;
 }) {
-  const res = await fetch(`${API_URL}/api/auth/register/`, {
+  const res = await fetch(`${API_URL}/auth/register/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -15,14 +15,18 @@ export async function registerUser(data: {
   if (!res.ok) {
     const error = await res.json().catch(() => null);
     throw new Error(
-      error?.email?.[0] ?? error?.detail ?? "Something went wrong",
+      error?.email?.[0] ??
+        error?.password?.[0] ??
+        error?.name?.[0] ??
+        error?.detail ??
+        "Something went wrong",
     );
   }
   return res.json();
 }
 
 export async function loginUser(data: { email: string; password: string }) {
-  const res = await fetch(`${API_URL}/api/auth/login/`, {
+  const res = await fetch(`${API_URL}/auth/login/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
