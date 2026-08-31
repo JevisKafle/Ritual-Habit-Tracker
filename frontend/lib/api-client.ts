@@ -1,7 +1,13 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 import { HABIT_COLORS } from "@/utils/utils";
-import type { Habit, Frequency, BackendCheckIn, BackendHabit, HabitStats } from "@/type";
+import type {
+  Habit,
+  Frequency,
+  BackendCheckIn,
+  BackendHabit,
+  HabitStats,
+} from "@/type";
 
 //error for registration
 function extractRegisterError(error: any): string {
@@ -238,11 +244,39 @@ export async function updateHabit(
   return mapHabit(await res.json());
 }
 
-export async function deleteHabit(id:string):Promise<void> {
+export async function deleteHabit(id: string): Promise<void> {
   const res = await authFetch(`${API_URL}/habits/${id}/`, { method: "DELETE" });
 
-  if(!res.ok) throw new Error("failed to delete habit")
+  if (!res.ok) throw new Error("failed to delete habit");
 }
 
 //checkin
 
+export async function checkInHabit(
+  habitId: string,
+  date?: string,
+): Promise<void> {
+  const res = await authFetch(`${API_URL}/habits/${habitId}/checkin/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(date ? { date } : {}),
+  });
+  if (!res.ok) throw new Error("Failed to check in");
+}
+
+export async function undoCheckIn(
+  habitId: string,
+  date?: string,
+): Promise<void> {
+  const query = date ? `?date=${date}` : "";
+  const res = await authFetch(`${API_URL}/habits/${habitId}/checkin/${query}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to undo check-in");
+}
+
+export async function fetchHabitStats(habitId: string): Promise<HabitStats> {
+  const res = await authFetch(`${API_URL}/habits/${habitId}/stats/`);
+  if (!res.ok) throw new Error("Failed to fetch stats");
+  return res.json();
+}
