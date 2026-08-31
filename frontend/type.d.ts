@@ -33,9 +33,28 @@ export interface HabitCardProps {
   color: string;
 }
 
-type User = {
+export type User = {
   id: number
   email: string
   name: string
   username: string
+}
+
+export interface ProfilePageProps {
+  stats: ProfileStats;
+  onLogout: () => void;
+}
+
+export interface ProfileStats {
+  totalHabits: number;
+  totalCheckIns: number;
+  longestStreak: number;
+  currentStreak: number;
+}
+
+interface ProfileDisplayUser {
+    name: string;
+    email: string;
+    joinedAt: string;
+    avatarInitials: string;
 }

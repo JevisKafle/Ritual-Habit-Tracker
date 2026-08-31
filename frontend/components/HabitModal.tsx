@@ -166,7 +166,7 @@ export default function HabitModal({ habit, onSave, onCancel }: HabitModalProps)
                                 <button
                                     key={c}
                                     onClick={() => setColor(c)}
-                                    className="w-7 h-7 rounded-full transition-all duration-150 "
+                                    className="w-7 h-7 rounded-full transition-all duration-150 cursor-pointer "
                                     style={{
                                         background: c,
                                         boxShadow:

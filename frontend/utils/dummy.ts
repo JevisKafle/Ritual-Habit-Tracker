@@ -78,3 +78,10 @@ export const dummyHabits: Habit[] = [
     ],
   },
 ];
+
+export const dummyProfileStats = {
+  totalHabits: 5,
+  totalCheckIns: 142,
+  longestStreak: 21,
+  currentStreak: 6,
+};
