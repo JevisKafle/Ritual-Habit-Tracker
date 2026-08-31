@@ -1,11 +1,11 @@
-type Habit = {
+export type Habit = {
   id: string;
   title: string;
   desc: string;
-  frequency: "daily" | "weekly";
+  frequency: Frequency;
   isDoneToday: boolean;
-  color: string;
   checkIns: string[];
+  color: string;
 };
 
 export type Frequency = "daily" | "weekly";
@@ -59,3 +59,29 @@ interface ProfileDisplayUser {
     joinedAt: string;
     avatarInitials: string;
 }
+
+type BackendCheckIn = {
+  id: number;
+  habit: number;
+  date: string;
+  created_at: string;
+};
+
+type BackendHabit = {
+  id: number;
+  user: number;
+  name: string;
+  description: string;
+  frequency: Frequency;
+  color: string;
+  is_active: boolean;
+  created_at: string;
+  checkins: BackendCheckIn[];
+};
+
+export type HabitStats = {
+  current_streak: number;
+  longest_streak: number;
+  completion_percentage: number;
+  total_checkins: number;
+};

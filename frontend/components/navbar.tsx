@@ -3,7 +3,7 @@ import Link from "next/link"
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { getMe } from "@/lib/queries"
+import { getMe } from "@/lib/api-client"
 
 const navItems = [
     { id: 1, name: 'Home', path: '/' },

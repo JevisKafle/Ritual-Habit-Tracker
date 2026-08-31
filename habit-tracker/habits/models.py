@@ -6,11 +6,14 @@ class Habit(models.Model):
     FREQUENCY_CHOICE = [("daily", "Daily"), ("weekly", "Weekly")]
 
     COLOR_CHOICES = [
-        ("green", "Green"),
+        ("indigo", "Indigo"),
         ("purple", "Purple"),
-        ("blue", "Blue"),
-        ("orange", "Orange"),
         ("pink", "Pink"),
+        ("red", "Red"),
+        ("amber", "Amber"),
+        ("emerald", "Emerald"),
+        ("blue", "Blue"),
+        ("violet", "Violet"),
     ]
 
     user = models.ForeignKey(
