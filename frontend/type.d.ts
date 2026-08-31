@@ -1,10 +1,11 @@
-export type Habit = {
+type Habit = {
   id: string;
   title: string;
   desc: string;
+  frequency: "daily" | "weekly";
   isDoneToday: boolean;
-  checkIns: string[];
   color: string;
+  checkIns: string[];
 };
 
 export type Frequency = "daily" | "weekly";
