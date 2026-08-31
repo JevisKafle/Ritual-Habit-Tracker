@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { registerUser } from "@/lib/api-client"
+import { registerUser } from "@/lib/queries"
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {

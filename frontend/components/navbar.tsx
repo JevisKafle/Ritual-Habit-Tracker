@@ -3,20 +3,41 @@ import Link from "next/link"
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from "react"
 import Image from "next/image"
+import { getMe } from "@/lib/queries"
 
 const navItems = [
     { id: 1, name: 'Home', path: '/' },
     { id: 2, name: 'About', path: '/about' },
 ]
 
+function getInitials(name: string): string {
+    return name
+        .trim()
+        .split(/\s+/)
+        .map(part => part[0]?.toUpperCase() ?? "")
+        .slice(0, 2)
+        .join("");
+}
+
 export default function Navbar() {
     const pathname = usePathname()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [initials, setInitials] = useState<string | null>(null)
 
     useEffect(() => {
         const token = localStorage.getItem("access_token")
         setIsLoggedIn(!!token)
     }, [pathname])
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            setInitials(null)
+            return
+        }
+        getMe()
+            .then(data => setInitials(getInitials(data.name || data.email)))
+            .catch(() => setInitials(null))
+    }, [isLoggedIn, pathname])
 
     return (
         <nav className="w-full flex items-center justify-between px-8 py-4 bg-hover-surface sticky top-0 z-50 border-b border-border">
@@ -50,15 +71,11 @@ export default function Navbar() {
                     )
                 })}
                 {isLoggedIn ? (
-                <Link href="/profile" className="ml-3">
-                    <Image
-                        src="/default_avatar.png"
-                        alt="User profile"
-                        width={32}
-                        height={32}
-                        className="rounded-full border border-border hover:opacity-80 transition-opacity cursor-pointer"
-                    />
-                </Link>
+                    <Link href="/profile" className="ml-3">
+                        <div className="w-8 h-8 rounded-full border border-border bg-primary text-white flex items-center justify-center text-xs font-semibold hover:opacity-80 transition-opacity cursor-pointer">
+                            {initials ?? ""}
+                        </div>
+                    </Link>
                 ) : (
                     <Link
                         href="/login"
@@ -67,9 +84,6 @@ export default function Navbar() {
                         Login
                     </Link>
                 )}
-
-
-
             </div>
         </nav>
     )

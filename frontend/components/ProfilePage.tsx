@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { getMe as fetchMe } from "@/lib/api-client";
+import { getMe as fetchMe } from "@/lib/queries";
 import { ProfilePageProps } from "@/type";
 import { IconMail, IconCalendar, IconLogOut } from "@/components/icon"
 import { Skeleton } from "@/components/ProfileSkeleton"

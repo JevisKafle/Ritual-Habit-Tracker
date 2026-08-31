@@ -15,7 +15,7 @@ export default function AboutPage() {
             </p>
 
             <Card className="mt-8">
-                <CardContent className="pt-6 space-y-4 text-sm text-muted-foreground leading-relaxed">
+                <CardContent className="pt-2 space-y-4 text-sm text-muted-foreground leading-relaxed">
                     <p>
                         Every habit tracks its own streak - how many days or weeks
                         in a row you've kept it up, and your longest run ever. Miss a
