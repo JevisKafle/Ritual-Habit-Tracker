@@ -37,6 +37,7 @@ const HabitCard = ({
     isDoneToday,
     checkIns,
     color,
+    onCheckIn
 }: HabitCardProps) => {
     const today = todayISO();
     const last7 = dateRange(7);
@@ -50,7 +51,7 @@ const HabitCard = ({
                             <CardTitle className="text-2xl font-bold flex items-center gap-2">
                                 <div
                                     className="w-4 h-4 rounded-full shrink-0"
-                                    style={{ background: color }} 
+                                    style={{ background: color }}
                                 />
                                 {title}
                             </CardTitle>
@@ -101,7 +102,11 @@ const HabitCard = ({
                             variant="ghost"
                             size="sm"
                             className="h-7 px-3 text-xs"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onCheckIn();
+                            }}
                         >
                             ✔️ Done today
                         </Button>
@@ -110,7 +115,11 @@ const HabitCard = ({
                             variant="default"
                             size="sm"
                             className="h-7 p-4 text-sm text-white cursor-pointer rounded-2xl"
-                            onClick={(e) => e.preventDefault()}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onCheckIn();
+                            }}
                         >
                             Check in
                         </Button>

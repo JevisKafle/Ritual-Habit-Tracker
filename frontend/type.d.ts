@@ -32,6 +32,7 @@ export interface HabitCardProps {
   isDoneToday: boolean;
   checkIns: string[];
   color: string;
+  onCheckIn: () => void;
 }
 
 export type User = {

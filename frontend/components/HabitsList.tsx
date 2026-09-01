@@ -5,16 +5,20 @@ import HabitCard from "@/components/HabitCard";
 import { Progress } from "@/components/ui/progress";
 import { IconPlus } from "@/components/icon";
 import HabitModal from "@/components/HabitModal";
-import { HabitListProps } from "@/type";
+import { useHabits, useCreateHabit, useCheckIn, useUndoCheckIn } from "@/lib/queries";
+import HabitCardSkeleton from "@/components/HabitCardSkeleton";
 
-export default function HabitList({ initialHabits }: HabitListProps) {
-    const [habits, setHabits] = useState(initialHabits);
+export default function HabitList() {
+    const { data: habits, isLoading } = useHabits();
+    const createHabit = useCreateHabit();
+    const checkIn = useCheckIn();
+    const undoCheckIn = useUndoCheckIn();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const totalHabits = habits.length;
-    const doneToday = habits.filter((h) => h.isDoneToday).length;
-    const allDone = doneToday === totalHabits;
-    const overallProgress = Math.round((doneToday / totalHabits) * 100);
+    const totalHabits = habits?.length ?? 0;
+    const doneToday = habits?.filter((h) => h.isDoneToday).length ?? 0;
+    const allDone = totalHabits > 0 && doneToday === totalHabits;
+    const overallProgress = totalHabits > 0 ? Math.round((doneToday / totalHabits) * 100) : 0;
 
     const getGreeting = () => {
         const hour = new Date().getHours();
@@ -29,16 +33,16 @@ export default function HabitList({ initialHabits }: HabitListProps) {
         frequency: "daily" | "weekly";
         color: string;
     }) => {
-        const newHabit = {
-            id: crypto.randomUUID(),
-            title: data.title,
-            desc: data.desc,
-            isDoneToday: false,
-            checkIns: [],
-            color: data.color,
-        };
-        setHabits([...habits, newHabit]);
-        setIsModalOpen(false);
+        createHabit.mutate(data);
+        setIsModalOpen(false)
+    };
+
+    const handleToggleCheckIn = (habitId: string, isDoneToday: boolean) => {
+        if (isDoneToday) {
+            undoCheckIn.mutate({ habitId });
+        } else {
+            checkIn.mutate({ habitId });
+        }
     };
 
     return (
@@ -78,17 +82,27 @@ export default function HabitList({ initialHabits }: HabitListProps) {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    {habits.map((habit) => (
-                        <HabitCard
-                            id={habit.id}
-                            key={habit.id}
-                            title={habit.title}
-                            desc={habit.desc}
-                            isDoneToday={habit.isDoneToday}
-                            checkIns={habit.checkIns}
-                            color={habit.color}
-                        />
-                    ))}
+                    {isLoading ? (
+                        // changed: real skeleton component instead of inline placeholder divs
+                        <>
+                            <HabitCardSkeleton />
+                            <HabitCardSkeleton />
+                            <HabitCardSkeleton />
+                        </>
+                    ) : (
+                        habits?.map((habit) => (
+                            <HabitCard
+                                id={habit.id}
+                                key={habit.id}
+                                title={habit.title}
+                                desc={habit.desc}
+                                isDoneToday={habit.isDoneToday}
+                                checkIns={habit.checkIns}
+                                color={habit.color}
+                                onCheckIn={() => handleToggleCheckIn(habit.id, habit.isDoneToday)}
+                            />
+                        ))
+                    )}
                 </div>
             </div>
 
