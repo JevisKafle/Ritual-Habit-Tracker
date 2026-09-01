@@ -205,7 +205,7 @@ export async function createHabit(data: {
 }): Promise<Habit> {
   const res = await authFetch(`${API_URL}/habits/`, {
     method: "POST",
-    headers: { "Content-Type": "applications/json" },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       name: data.title,
       description: data.desc,
