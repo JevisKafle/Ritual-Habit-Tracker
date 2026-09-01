@@ -1,4 +1,5 @@
-import { dummyHabits } from "@/utils/dummy";
+"use client";
+import { useParams } from "next/navigation";
 import {
     Card,
     CardContent,
@@ -8,36 +9,37 @@ import {
 } from "@/components/ui/card";
 import HabitHeatmap from "@/components/HabitHeatmap";
 import { Button } from "@/components/ui/button";
+import { useHabits, useHabitStats, useCheckIn, useUndoCheckIn } from "@/lib/queries";
 
-const stats = [
-    {
-        icon: "🔥",
-        value: "9d",
-        label: "Current streak",
-    },
-    {
-        icon: "🏆",
-        value: "9d",
-        label: "Longest streak",
-    },
-    {
-        icon: "📊",
-        value: "50%",
-        label: "Completion",
-    },
-    {
-        icon: "✅",
-        value: "23",
-        label: "Total check-ins",
-    },
-];
+const HabitDetailPage = () => {
+    const { id } = useParams<{ id: string }>()
 
+    const { data: habits, isLoading: habitsLoading } = useHabits()
+    const habit = habits?.find((h) => h.id === id);
 
-const HabitDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
-    const { id } = await params;
-    const habit = dummyHabits.find((h) => h.id === id);
+    const { data: stats, isLoading: statsLoading } = useHabitStats(id)
 
+    const checkIn = useCheckIn();
+    const undoCheckIn = useUndoCheckIn();
+
+    const handleToggleCheckIn = () => {
+        if (!habit) return
+        if (habit.isDoneToday) {
+            undoCheckIn.mutate({ habitId: habit.id })
+        } else {
+            checkIn.mutate({ habitId: habit.id })
+        }
+    }
+
+    if (habitsLoading) return <div>Loading...</div>;
     if (!habit) return <div>Habit not found</div>;
+
+    const statCards = [
+        { icon: "🔥", value: `${stats?.current_streak ?? "-"}d`, label: "Current streak" },
+        { icon: "🏆", value: `${stats?.longest_streak ?? "-"}d`, label: "Longest streak" },
+        { icon: "📊", value: `${stats?.completion_percentage ?? "-"}%`, label: "Completion" },
+        { icon: "✅", value: `${stats?.total_checkins ?? "-"}`, label: "Total check-ins" },
+    ];
     return (
         <main className="w-full max-w-3xl mx-auto p-4 space-y-6 my-6">
             <Card className=" ring-0 shadow-md">
@@ -71,12 +73,12 @@ const HabitDetailPage = async ({ params }: { params: Promise<{ id: string }> }) 
                 </CardHeader>
             </Card>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                {stats.map((stat) => (
+                {statCards.map((stat) => (
                     <Card key={stat.label} className="rounded-2xl">
                         <CardContent className="flex flex-col items-center justify-center py-6">
                             <span className="mb-2 text-2xl">{stat.icon}</span>
                             <span className="text-2xl font-bold">
-                                {stat.value}
+                                {statsLoading ? "..." : stat.value}
                             </span>
                             <span className="mt-1 text-sm text-muted-foreground">
                                 {stat.label}
@@ -94,11 +96,21 @@ const HabitDetailPage = async ({ params }: { params: Promise<{ id: string }> }) 
                 </CardContent>
             </Card>
             {habit.isDoneToday ? (
-                <Button className="w-full py-6 rounded-2xl text-primary-text text-md bg-muted-green " variant="ghost" disabled>Checked in</Button>
-            )
-                : (
-                    <Button className="w-full py-6 rounded-2xl text-primary-text cursor-pointer text-md">Check in today</Button>
-                )}
+                <Button
+                    className="w-full py-6 rounded-2xl text-primary-text text-md bg-muted-green cursor-pointer"
+                    variant="ghost"
+                    onClick={handleToggleCheckIn} 
+                >
+                    Checked in
+                </Button>
+            ) : (
+                <Button
+                    className="w-full py-6 rounded-2xl text-primary-text cursor-pointer text-md"
+                    onClick={handleToggleCheckIn} 
+                >
+                    Check in today
+                </Button>
+            )}
 
         </main>
     )
