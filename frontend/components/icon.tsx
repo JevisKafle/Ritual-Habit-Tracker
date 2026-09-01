@@ -44,3 +44,21 @@ export const IconLogOut = () => (
     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
   </svg>
 );
+
+export const IconFire = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M13 2c1.7 2.2 3.1 3.8 3.1 6.1A6.1 6.1 0 0 1 10 14.2c0 2.1-1.7 3.8-3.7 3.8A5.2 5.2 0 0 1 1.1 12.4C1.1 7.6 4.4 4.7 8 2.4c.5-.4 1.5-.9 2.4-.5.7.4 2.2 1.7 2.6 2.1Z" />
+    <path d="M12.9 10.4c.8 1.1 1.1 2.1 1.1 3.1A4.1 4.1 0 0 1 9.8 17.5c-1.7 0-2.9-1.1-2.9-2.7 0-1.7 1.3-3 3.4-4.3.7-.4 1.5-.8 2.6-1.1Z" />
+  </svg>
+);
+

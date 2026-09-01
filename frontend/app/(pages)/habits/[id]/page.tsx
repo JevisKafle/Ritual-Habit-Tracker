@@ -10,6 +10,7 @@ import {
 import HabitHeatmap from "@/components/HabitHeatmap";
 import { Button } from "@/components/ui/button";
 import { useHabits, useHabitStats, useCheckIn, useUndoCheckIn } from "@/lib/queries";
+import { Flame, Trophy, BarChart3, CheckCircle2 } from "lucide-react";
 
 const HabitDetailPage = () => {
     const { id } = useParams<{ id: string }>()
@@ -35,10 +36,10 @@ const HabitDetailPage = () => {
     if (!habit) return <div>Habit not found</div>;
 
     const statCards = [
-        { icon: "🔥", value: `${stats?.current_streak ?? "-"}d`, label: "Current streak" },
-        { icon: "🏆", value: `${stats?.longest_streak ?? "-"}d`, label: "Longest streak" },
-        { icon: "📊", value: `${stats?.completion_percentage ?? "-"}%`, label: "Completion" },
-        { icon: "✅", value: `${stats?.total_checkins ?? "-"}`, label: "Total check-ins" },
+        { icon: <Flame className="w-6 h-6 text-primary" />, value: `${stats?.current_streak ?? "-"}d`, label: "Current streak" },
+        { icon: <Trophy className="w-6 h-6 text-primary" />, value: `${stats?.longest_streak ?? "-"}d`, label: "Longest streak" },
+        { icon: <BarChart3 className="w-6 h-6 text-primary" />, value: `${stats?.completion_percentage ?? "-"}%`, label: "Completion" },
+        { icon: <CheckCircle2 className="w-6 h-6 text-primary" />, value: `${stats?.total_checkins ?? "-"}`, label: "Total check-ins" },
     ];
     return (
         <main className="w-full max-w-3xl mx-auto p-4 space-y-6 my-6">
@@ -99,14 +100,14 @@ const HabitDetailPage = () => {
                 <Button
                     className="w-full py-6 rounded-2xl text-primary-text text-md bg-muted-green cursor-pointer"
                     variant="ghost"
-                    onClick={handleToggleCheckIn} 
+                    onClick={handleToggleCheckIn}
                 >
                     Checked in
                 </Button>
             ) : (
                 <Button
                     className="w-full py-6 rounded-2xl text-primary-text cursor-pointer text-md"
-                    onClick={handleToggleCheckIn} 
+                    onClick={handleToggleCheckIn}
                 >
                     Check in today
                 </Button>

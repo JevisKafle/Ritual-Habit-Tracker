@@ -59,10 +59,6 @@ const HabitCard = ({
                                 {desc}
                             </CardDescription>
                         </div>
-
-                        <CardAction className="text-sm font-semibold">
-                            🔥 9d
-                        </CardAction>
                     </div>
                 </CardHeader>
 
@@ -101,7 +97,7 @@ const HabitCard = ({
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="h-7 px-3 text-xs"
+                            className="h-7 px-3 text-xs cursor-pointer"
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
