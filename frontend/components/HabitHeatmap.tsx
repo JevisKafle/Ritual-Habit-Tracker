@@ -91,8 +91,6 @@ export default function HabitHeatmap({
             <div className="flex items-center justify-end gap-2 mt-4 text-sm text-muted-foreground">
                 <span>Less</span>
                 <div className="w-6 h-6 rounded-md" style={{ background: "var(--color-muted)", opacity: 0.6 }} />
-                <div className="w-6 h-6 rounded-md" style={{ background: color, opacity: 0.4 }} />
-                <div className="w-6 h-6 rounded-md" style={{ background: color, opacity: 0.7 }} />
                 <div className="w-6 h-6 rounded-md" style={{ background: color, opacity: 1 }} />
                 <span>More</span>
             </div>
