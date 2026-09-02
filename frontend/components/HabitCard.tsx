@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from 'lucide-react';
 import {
     Card,
     CardAction,
@@ -97,14 +98,14 @@ const HabitCard = ({
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="h-7 px-3 text-xs cursor-pointer"
+                            className="h-7 px-3 text-xs cursor-pointer hover:"
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 onCheckIn();
                             }}
                         >
-                            ✔️ Done today
+                            <Check /> Done today
                         </Button>
                     ) : (
                         <Button
