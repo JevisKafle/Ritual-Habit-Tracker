@@ -86,3 +86,9 @@ export type HabitStats = {
   completion_percentage: number;
   total_checkins: number;
 };
+
+export interface LandingPageProps {
+    onLogin: () => void;
+    onSignUp: () => void;
+    onGoToHabits: () => void;
+}

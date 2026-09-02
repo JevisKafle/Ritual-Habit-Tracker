@@ -2,11 +2,10 @@
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from "react"
-import Image from "next/image"
 import { getMe } from "@/lib/api-client"
 
 const navItems = [
-    { id: 1, name: 'Home', path: '/' },
+    { id: 1, name: 'Home', path: '/home' },
     { id: 2, name: 'About', path: '/about' },
 ]
 
@@ -43,12 +42,11 @@ export default function Navbar() {
         <nav className="w-full flex items-center justify-between px-8 py-4 bg-hover-surface sticky top-0 z-50 border-b border-border">
             {/* Logo */}
             <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-primary">
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                        <path d="M8 2C5.8 2 4 4 4 6.5c0 3.2 4 7.5 4 7.5s4-4.3 4-7.5C12 4 10.2 2 8 2z" fill="white" />
-                        <circle cx="8" cy="6.5" r="1.8" fill="rgba(255,255,255,0.5)" />
-                    </svg>
-                </div>
+                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary">
+                            <span className="text-[10px] text-white">
+                                ✦
+                            </span>
+                        </div>
                 <span className="text-sm font-semibold tracking-wide text-primary-dark">
                     RITUAL
                 </span>

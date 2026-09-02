@@ -4,7 +4,6 @@ import { HABIT_COLORS } from "@/utils/utils";
 import type {
   Habit,
   Frequency,
-  BackendCheckIn,
   BackendHabit,
   HabitStats,
 } from "@/type";

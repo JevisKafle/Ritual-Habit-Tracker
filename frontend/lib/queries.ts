@@ -15,6 +15,7 @@ export function useHabits() {
   return useQuery({
     queryKey: ["habits"],
     queryFn: fetchHabits,
+    staleTime: 1000 * 60 * 5,
   });
 }
 //create habit
