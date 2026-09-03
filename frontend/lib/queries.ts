@@ -7,8 +7,19 @@ import {
   checkInHabit,
   undoCheckIn,
   fetchHabitStats,
+  getMe,
 } from "@/lib/api-client";
 import type { Habit, Frequency } from "@/type";
+import { todayISO } from "./utils";
+
+//current user
+export function useCurrentUser() {
+  return useQuery({
+    queryKey: ["currentUser"],
+    queryFn: getMe,
+    staleTime: 1000 * 60 * 5,
+  });
+}
 
 //habits list
 export function useHabits() {
@@ -102,9 +113,9 @@ export function useCheckIn() {
       if (context?.previousHabits) {
         queryClient.setQueryData(["habits"], context.previousHabits);
       }
-    },
-    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["habits"] });
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["habitStats"] });
     },
   });
@@ -122,17 +133,14 @@ export function useUndoCheckIn() {
       await queryClient.cancelQueries({ queryKey: ["habits"] });
 
       const previousHabits = queryClient.getQueryData<Habit[]>(["habits"]);
-      const today = date ?? new Date().toISOString().split("T")[0];
+      const today = date ?? todayISO();
 
       queryClient.setQueryData<Habit[]>(["habits"], (old) =>
         old?.map((h) =>
           h.id === habitId
             ? {
                 ...h,
-                isDoneToday:
-                  today === new Date().toISOString().split("T")[0]
-                    ? false
-                    : h.isDoneToday,
+                isDoneToday: today === todayISO() ? false : h.isDoneToday,
                 checkIns: h.checkIns.filter((d) => d !== today),
               }
             : h,
@@ -146,11 +154,11 @@ export function useUndoCheckIn() {
       if (context?.previousHabits) {
         queryClient.setQueryData(["habits"], context.previousHabits);
       }
+      queryClient.invalidateQueries({ queryKey: ["habits"] });
     },
 
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["habits"] });
-      queryClient.invalidateQueries({ queryKey: ["habitStats"] });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["habitStats"] }); 
     },
   });
 }

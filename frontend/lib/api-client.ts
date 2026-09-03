@@ -1,12 +1,8 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 import { HABIT_COLORS } from "@/utils/utils";
-import type {
-  Habit,
-  Frequency,
-  BackendHabit,
-  HabitStats,
-} from "@/type";
+import { todayISO } from "./utils";
+import type { Habit, Frequency, BackendHabit, HabitStats } from "@/type";
 
 //error for registration
 function extractRegisterError(error: any): string {
@@ -102,6 +98,12 @@ export async function refreshAccessToken(): Promise<string | null> {
   return data.access;
 }
 
+function forceLogout() {
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("refresh_token");
+  window.location.href = "/login";
+}
+
 //same for jwt
 async function authFetch(
   url: string,
@@ -123,9 +125,7 @@ async function authFetch(
   if (res.status === 401) {
     const newToken = await refreshAccessToken();
     if (!newToken) {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
-      window.location.href = "/login";
+      forceLogout();
       throw new Error("Session expired. Please log in again.");
     }
     res = await doFetch(newToken);
@@ -173,7 +173,7 @@ function hexToColorName(hex: string): string {
 //conversion from backend to frontend
 function mapHabit(raw: BackendHabit): Habit {
   const checkInDates = raw.checkins.map((c) => c.date);
-  const today = new Date().toISOString().split("T")[0];
+  const today = todayISO()
 
   return {
     id: String(raw.id),

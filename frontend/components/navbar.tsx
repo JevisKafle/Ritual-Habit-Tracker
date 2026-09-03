@@ -2,7 +2,7 @@
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from "react"
-import { getMe } from "@/lib/api-client"
+import { useCurrentUser } from "@/lib/queries"
 
 const navItems = [
     { id: 1, name: 'Home', path: '/home' },
@@ -21,22 +21,14 @@ function getInitials(name: string): string {
 export default function Navbar() {
     const pathname = usePathname()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [initials, setInitials] = useState<string | null>(null)
 
     useEffect(() => {
         const token = localStorage.getItem("access_token")
         setIsLoggedIn(!!token)
     }, [pathname])
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            setInitials(null)
-            return
-        }
-        getMe()
-            .then(data => setInitials(getInitials(data.name || data.email)))
-            .catch(() => setInitials(null))
-    }, [isLoggedIn, pathname])
+    const {data:user} = useCurrentUser();
+    const initials = isLoggedIn && user ? getInitials(user.name || user.email):null
 
     return (
         <nav className="w-full flex items-center justify-between px-8 py-4 bg-hover-surface sticky top-0 z-50 border-b border-border">

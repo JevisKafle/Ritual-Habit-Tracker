@@ -5,4 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function todayISO(): string {
+  return new Date().toISOString().split("T")[0];
+}
+
 
