@@ -12,10 +12,10 @@ export default function ProfilePage({ user, stats, onLogout }: ProfilePageProps)
         : null;
 
     const STATS_DISPLAY = [
-        { label: "Total habits", value: stats.totalHabits, icon: <Calendar /> },
-        { label: "Total check-ins", value: stats.totalCheckIns, icon: <Check /> },
-        { label: "Current streak", value: `${stats.currentStreak}d`, icon: <Flame /> },
-        { label: "Longest streak", value: `${stats.longestStreak}d`, icon: <TrophyIcon /> },
+        { label: "Total habits", value: stats.totalHabits, icon: <Calendar className="w-6 h-6 text-primary" /> },
+        { label: "Total check-ins", value: stats.totalCheckIns, icon: <Check className="w-6 h-6 text-primary" /> },
+        { label: "Current streak", value: `${stats.currentStreak}d`, icon: <Flame className="w-6 h-6 text-primary"/> },
+        { label: "Longest streak", value: `${stats.longestStreak}d`, icon: <TrophyIcon className="w-6 h-6 text-primary" /> },
     ]
 
     return (

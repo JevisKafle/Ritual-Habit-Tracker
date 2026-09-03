@@ -5,6 +5,7 @@ import ProfilePage from "@/components/ProfilePage"
 import { dummyProfileStats } from "@/utils/dummy"
 import { logoutUser } from "@/lib/api-client"
 import { useCurrentUser } from "@/lib/queries"
+import ProfilePageSkeleton from "@/components/ProfilePageSkeleton"
 
 function getInitials(name: string): string {
   return name
@@ -24,7 +25,7 @@ export default function Profile() {
     router.push("/login")
   }
 
-  if (isLoading || !rawUser) return <div>Loading...</div>
+  if (isLoading || !rawUser) return <ProfilePageSkeleton />
 
   const user = {
     name: rawUser.name,
