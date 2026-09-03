@@ -43,6 +43,7 @@ export type User = {
 }
 
 export interface ProfilePageProps {
+  user: ProfileDisplayUser;
   stats: ProfileStats;
   onLogout: () => void;
 }

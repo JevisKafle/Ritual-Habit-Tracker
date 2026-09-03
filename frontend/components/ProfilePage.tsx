@@ -1,64 +1,26 @@
 "use client"
 
-import { useEffect, useState } from "react";
-
-import { getMe as fetchMe } from "@/lib/api-client";
 import { ProfilePageProps } from "@/type";
-import { IconMail, IconCalendar, IconLogOut } from "@/components/icon"
+import { Flame, Mail, Calendar, LogOut, TrophyIcon, Check } from "lucide-react";
 import { Skeleton } from "@/components/ProfileSkeleton"
-import { ProfileDisplayUser } from "@/type";
-
-function getInitials(name: string): string {
-    return name
-        .trim()
-        .split(/\s+/)
-        .map(part => part[0]?.toUpperCase() ?? "")
-        .slice(0, 2)
-        .join("");
-}
-
-async function getMe(): Promise<ProfileDisplayUser> {
-    const data = await fetchMe();
-    return {
-        name: data.name,
-        email: data.email,
-        joinedAt: data.date_joined,
-        avatarInitials: getInitials(data.name || data.email),
-    };
-}
 
 
-export default function ProfilePage({ stats, onLogout }: ProfilePageProps) {
-    const [user, setUser] = useState<ProfileDisplayUser | null>(null);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        getMe()
-            .then(setUser)
-            .catch(() => setError("Could not load profile."));
-    }, []);
+export default function ProfilePage({ user, stats, onLogout }: ProfilePageProps) {
 
     const memberSince = user
         ? new Date(user.joinedAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
         : null;
 
     const STATS_DISPLAY = [
-        { label: "Total habits", value: stats.totalHabits, icon: "📋" },
-        { label: "Total check-ins", value: stats.totalCheckIns, icon: "✅" },
-        { label: "Current streak", value: `${stats.currentStreak}d`, icon: "🔥" },
-        { label: "Longest streak", value: `${stats.longestStreak}d`, icon: "🏆" },
+        { label: "Total habits", value: stats.totalHabits, icon: <Calendar /> },
+        { label: "Total check-ins", value: stats.totalCheckIns, icon: <Check /> },
+        { label: "Current streak", value: `${stats.currentStreak}d`, icon: <Flame /> },
+        { label: "Longest streak", value: `${stats.longestStreak}d`, icon: <TrophyIcon /> },
     ]
 
     return (
         <div className="min-h-screen bg-page">
             <main className="max-w-2xl mx-auto px-4 py-8 space-y-5">
-                {error && (
-                    <div className="rounded-2xl p-4 border text-sm bg-(--color-card) border-error text-error">
-                        {error}
-                    </div>
-                )}
-
-                {/* Identity card */}
                 <div className="rounded-2xl p-6 border bg-card border-border">
                     <div className="flex items-center gap-4">
                         <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-xl font-bold shrink-0 bg-primary text-primary-text">
@@ -72,11 +34,11 @@ export default function ProfilePage({ stats, onLogout }: ProfilePageProps) {
                                         {user.name}
                                     </h1>
                                     <div className="flex items-center gap-1.5 mt-1 text-muted-foreground">
-                                        <IconMail />
+                                        <Mail className="w-3.5 h-3.5" />
                                         <span className="text-sm truncate">{user.email}</span>
                                     </div>
                                     <div className="flex items-center gap-1.5 mt-0.5 text-muted-foreground">
-                                        <IconCalendar />
+                                        <Calendar className="w-3.5 h-3.5" />
                                         <span className="text-xs">Member since {memberSince}</span>
                                     </div>
                                 </>
@@ -91,7 +53,6 @@ export default function ProfilePage({ stats, onLogout }: ProfilePageProps) {
                     </div>
                 </div>
 
-                {/* Stats */}
                 <div>
                     <h2 className="text-xs font-semibold uppercase tracking-wider mb-3 text-muted-foreground" style={{ letterSpacing: "0.08em" }}>
                         Your stats
@@ -107,12 +68,11 @@ export default function ProfilePage({ stats, onLogout }: ProfilePageProps) {
                     </div>
                 </div>
 
-                {/* Log out */}
                 <button
                     onClick={onLogout}
                     className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold border transition-all duration-150 active:scale-[0.98] bg-(--color-card) border-error text-error hover:bg-(--color-hover-surface) cursor-pointer"
                 >
-                    <IconLogOut />
+                    <LogOut className="w-4 h-4" />
                     Log out
                 </button>
             </main>
