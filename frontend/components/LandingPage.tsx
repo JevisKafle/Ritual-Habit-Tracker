@@ -5,7 +5,7 @@ import { Flame, Calendar, Zap, BarChart3, Palette, Sparkles, Check } from "lucid
 const DEMO_HABITS = [
     { name: "Morning Meditation", streak: 14, color: "#0F766E", done: true },
     { name: "Read 30 Minutes", streak: 7, color: "#7C3AED", done: true },
-    { name: "Evening Walk", streak: 3, color: "#059669", done: false },
+    { name: "Evening Walk", streak: 3, color: "#059669", done: true },
 ];
 
 function DemoCard({
@@ -28,7 +28,7 @@ function DemoCard({
         return () => clearTimeout(t);
     }, [delay]);
 
-    const last7 = [true, true, false, true, true, true, done];
+    const last7 = [true, true, true, true, true, true, done];
 
     return (
         <div
@@ -194,12 +194,12 @@ export default function LandingPage({
                     <FeatureCard
                         icon={<Calendar className="w-6 h-6" />}
                         title="Calendar heatmap"
-                        body="A GitHub-style heatmap shows your full check-in history — instantly see patterns and gaps."
+                        body="A GitHub-style heatmap shows your full check-in history instantly see patterns and gaps."
                     />
                     <FeatureCard
                         icon={<Zap className="w-6 h-6" />}
                         title="One-tap check-in"
-                        body="Check off a habit in a single tap. No forms, no friction — done in a second."
+                        body="Check off a habit in a single tap. No forms, no friction done in a second."
                     />
                     <FeatureCard
                         icon={<BarChart3 className="w-6 h-6" />}
@@ -209,7 +209,7 @@ export default function LandingPage({
                     <FeatureCard
                         icon={<Palette className="w-6 h-6" />}
                         title="Custom habits"
-                        body="Name it, describe it, pick a color. Daily or weekly — Ritual adapts to how you live."
+                        body="Name it, describe it, pick a color. Daily or weekly Ritual adapts to how you live."
                     />
                 </div>
             </section>
@@ -242,7 +242,7 @@ export default function LandingPage({
                                 Ready to build your first ritual?
                             </h2>
                             <p className="mx-auto mb-8 max-w-sm text-sm text-muted-foreground">
-                                Join thousands of people who show up every day — one habit at a time.
+                                Join thousands of people who show up every day one habit at a time.
                             </p>
                             <div className="flex flex-wrap items-center justify-center gap-3">
                                 <button
