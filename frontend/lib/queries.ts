@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import {
   fetchHabits,
   createHabit,
@@ -14,9 +15,16 @@ import { todayISO } from "./utils";
 
 //current user
 export function useCurrentUser() {
+  const [hasToken, setHasToken] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    setHasToken(Boolean(localStorage.getItem("access_token")));
+  }, []);
+
   return useQuery({
     queryKey: ["currentUser"],
     queryFn: getMe,
+    enabled: hasToken === true,
     staleTime: 1000 * 60 * 5,
   });
 }

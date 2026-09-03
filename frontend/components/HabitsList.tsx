@@ -83,7 +83,6 @@ export default function HabitList() {
 
                 <div className="flex flex-col gap-4">
                     {isLoading ? (
-                        // changed: real skeleton component instead of inline placeholder divs
                         <>
                             <HabitCardSkeleton />
                             <HabitCardSkeleton />

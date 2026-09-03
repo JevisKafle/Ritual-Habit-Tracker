@@ -101,7 +101,9 @@ export async function refreshAccessToken(): Promise<string | null> {
 function forceLogout() {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
-  window.location.href = "/login";
+  if (window.location.pathname !== "/login") {
+    window.location.href = "/login";
+  }
 }
 
 //same for jwt
