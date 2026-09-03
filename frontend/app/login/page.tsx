@@ -13,6 +13,12 @@ export default function LoginPage() {
 
   const router = useRouter()
 
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setTimeout(() => {
+      e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 300);
+  };
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null)
@@ -57,6 +63,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-3.5 py-2.5 rounded-xl text-sm outline-none border bg-secondary border-border text-foreground transition-colors focus:border-primary"
+                onFocus={handleFocus}
               />
             </div>
 
@@ -74,6 +81,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-3.5 py-2.5 pr-10 rounded-xl text-sm outline-none border bg-secondary border-border text-foreground transition-colors focus:border-primary"
+                  onFocus={handleFocus}
                 />
                 <button
                   type="button"
