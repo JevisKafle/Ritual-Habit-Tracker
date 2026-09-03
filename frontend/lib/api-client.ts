@@ -63,21 +63,106 @@ export async function registerUser(data: {
   return res.json();
 }
 
-//login duh!
-export async function loginUser(data: { email: string; password: string }) {
-  const res = await fetch(`${API_URL}/auth/login/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) {
-    throw new Error("Invalid email or password.");
+function extractLoginError(error: any): string {
+  const emailError = error?.email?.[0];
+  const passwordError = error?.password?.[0];
+  const nonFieldError = error?.non_field_errors?.[0];
+  const detailError = error?.detail;
+
+  if (emailError) {
+    const msg = emailError.toLowerCase();
+    if (msg.includes("does not exist") || msg.includes("not found")) {
+      return "No account found with this email address.";
+    }
+    if (msg.includes("valid")) {
+      return "Please enter a valid email address.";
+    }
+    if (msg.includes("required")) {
+      return "Email address is required.";
+    }
+    return emailError;
   }
 
-  const tokens = await res.json();
-  localStorage.setItem("access_token", tokens.access);
-  localStorage.setItem("refresh_token", tokens.refresh);
-  return tokens;
+  if (passwordError) {
+    const msg = passwordError.toLowerCase();
+    if (msg.includes("required")) {
+      return "Password is required.";
+    }
+    if (msg.includes("incorrect") || msg.includes("wrong")) {
+      return "Incorrect password. Please try again.";
+    }
+    return passwordError;
+  }
+
+  if (nonFieldError) {
+    const msg = nonFieldError.toLowerCase();
+    if (msg.includes("invalid") || msg.includes("credentials")) {
+      return "Invalid email or password. Please try again.";
+    }
+    if (msg.includes("inactive") || msg.includes("disabled")) {
+      return "This account has been deactivated. Please contact support.";
+    }
+    if (msg.includes("verify") || msg.includes("confirm")) {
+      return "Please verify your email address before logging in.";
+    }
+    return nonFieldError;
+  }
+
+  if (detailError) {
+    const msg = detailError.toLowerCase();
+    if (msg.includes("credentials") || msg.includes("invalid")) {
+      return "Invalid email or password. Please try again.";
+    }
+    if (msg.includes("too many")) {
+      return "Too many failed attempts. Please try again later.";
+    }
+    return detailError;
+  }
+
+  if (error?.message) {
+    const msg = error.message.toLowerCase();
+    if (msg.includes("network") || msg.includes("fetch")) {
+      return "Network error. Please check your connection.";
+    }
+    if (msg.includes("timeout")) {
+      return "Request timed out. Please try again.";
+    }
+    return error.message;
+  }
+
+  return "Something went wrong. Please try again.";
+}
+
+//login duh!
+export async function loginUser(data: { email: string; password: string }) {
+  try {
+    const res = await fetch(`${API_URL}/auth/login/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      let errorData;
+      try {
+        errorData = await res.json();
+      } catch {
+        throw new Error(res.status === 401 ? "Invalid credentials." : `Error ${res.status}`);
+      }
+      const errorMessage = extractLoginError(errorData);
+      throw new Error(errorMessage);
+    }
+
+    const tokens = await res.json();
+    localStorage.setItem("access_token", tokens.access);
+    localStorage.setItem("refresh_token", tokens.refresh);
+    return tokens;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(extractLoginError({ message: error.message }));
+    }
+    throw new Error("Something went wrong. Please try again.");
+  }
 }
 
 //jwt doesnt expire
