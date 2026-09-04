@@ -36,11 +36,10 @@ export default function LoginPage() {
         {/*Ritual*/}
         <div className="text-center mb-10">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-4 bg-primary">
-            <div className="w-12 h-12 rounded-2xl flex items-center justify-center  bg-primary">
-              <svg width="24" height="24" viewBox="0 0 16 16" fill="none">
-                <path d="M8 2C5.8 2 4 4 4 6.5c0 3.2 4 7.5 4 7.5s4-4.3 4-7.5C12 4 10.2 2 8 2z" fill="white" />
-                <circle cx="8" cy="6.5" r="1.8" fill="rgba(255,255,255,0.5)" />
-              </svg>
+            <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary">
+              <span className="text-[30px] text-white">
+                ✦
+              </span>
             </div>
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-foreground">Ritual</h1>

@@ -27,18 +27,18 @@ export default function Navbar() {
         setIsLoggedIn(!!token)
     }, [pathname])
 
-    const {data:user} = useCurrentUser();
-    const initials = isLoggedIn && user ? getInitials(user.name || user.email):null
+    const { data: user } = useCurrentUser();
+    const initials = isLoggedIn && user ? getInitials(user.name || user.email) : null
 
     return (
         <nav className="w-full flex items-center justify-between px-8 py-4 bg-hover-surface sticky top-0 z-50 border-b border-border">
             {/* Logo */}
             <div className="flex items-center gap-2">
                 <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary">
-                            <span className="text-[10px] text-white">
-                                ✦
-                            </span>
-                        </div>
+                    <span className="text-[10px] text-white">
+                        ✦
+                    </span>
+                </div>
                 <span className="text-sm font-semibold tracking-wide text-primary-dark">
                     RITUAL
                 </span>

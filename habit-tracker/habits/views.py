@@ -5,6 +5,10 @@ from rest_framework.response import Response
 from rest_framework import viewsets, permissions, status
 from .serializers import HabitCheckInSerializer, HabitSerializer, HabitCreateSerializer
 from .models import HabitCheckIn, Habit
+import logging
+from django.core.cache import cache
+
+logger = logging.getLogger(__name__)
 
 
 class HabitViewSet(viewsets.ModelViewSet):
@@ -18,8 +22,28 @@ class HabitViewSet(viewsets.ModelViewSet):
             return HabitCreateSerializer
         return HabitSerializer
 
+    def list(self, request, *args, **kwargs):
+        cache_key = f"habits_list_{request.user.id}"
+        cached = cache.get(cache_key)
+        if cached is not None:
+            print(f"CACHE_HIT: {cache_key}")
+            return Response(cached)
+        print(f"Cache_miss: {cache_key}")
+        response = super().list(request, *args, **kwargs)
+        cache.set(cache_key, response.data, timeout=60)
+        return response
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+        cache.delete(f"habits_list_{self.request.user.id}")
+
+    def perform_update(self, serializer):
+        serializer.save()
+        cache.delete(f"habits_list_{self.request.user.id}")
+
+    def perform_destroy(self, instance):
+        instance.delete()
+        cache.delete(f"habits_list_{self.request.user.id}")
 
     @action(detail=True, methods=["post"])
     def checkin(self, request, pk=None):
@@ -37,6 +61,7 @@ class HabitViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        cache.delete(f"habits_list_{request.user.id}")
         serializer = HabitCheckInSerializer(checkin)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -55,6 +80,7 @@ class HabitViewSet(viewsets.ModelViewSet):
                 {"detail": "No check-in found for this date."},
                 status=status.HTTP_404_NOT_FOUND,
             )
+        cache.delete(f"habits_list_{request.user.id}")
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=["get"])
