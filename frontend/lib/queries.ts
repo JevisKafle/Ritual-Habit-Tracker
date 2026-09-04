@@ -9,6 +9,7 @@ import {
   undoCheckIn,
   fetchHabitStats,
   getMe,
+  fetchProfileStats
 } from "@/lib/api-client";
 import type { Habit, Frequency } from "@/type";
 import { todayISO } from "./utils";
@@ -178,4 +179,12 @@ export function useHabitStats(habitId: string) {
     queryFn: () => fetchHabitStats(habitId),
     enabled: !!habitId,
   });
+}
+
+//profile stats
+export function useProfileStats(){
+  return useQuery({
+    queryKey:["profileStats"],
+    queryFn:fetchProfileStats
+  })
 }

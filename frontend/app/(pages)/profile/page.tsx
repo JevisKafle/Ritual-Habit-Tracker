@@ -2,9 +2,8 @@
 
 import { useRouter } from "next/navigation"
 import ProfilePage from "@/components/ProfilePage"
-import { dummyProfileStats } from "@/utils/dummy"
 import { logoutUser } from "@/lib/api-client"
-import { useCurrentUser } from "@/lib/queries"
+import { useCurrentUser,useProfileStats } from "@/lib/queries"
 import ProfilePageSkeleton from "@/components/ProfilePageSkeleton"
 
 function getInitials(name: string): string {
@@ -19,13 +18,14 @@ function getInitials(name: string): string {
 export default function Profile() {
   const router = useRouter()
   const { data: rawUser, isLoading } = useCurrentUser()
+  const { data: stats, isLoading: isStatsLoading } = useProfileStats()
 
   const handleLogout = () => {
     logoutUser()
     router.push("/login")
   }
 
-  if (isLoading || !rawUser) return <ProfilePageSkeleton />
+  if (isLoading || isStatsLoading || !rawUser || !stats) return <ProfilePageSkeleton />
 
   const user = {
     name: rawUser.name,
@@ -37,7 +37,7 @@ export default function Profile() {
   return (
     <ProfilePage
       user={user}
-      stats={dummyProfileStats}
+      stats={stats}
       onLogout={handleLogout}
     />
   )

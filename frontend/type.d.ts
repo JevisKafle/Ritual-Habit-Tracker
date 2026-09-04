@@ -93,3 +93,4 @@ export interface LandingPageProps {
     onSignUp: () => void;
     onGoToHabits: () => void;
 }
+

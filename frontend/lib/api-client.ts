@@ -2,7 +2,13 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 import { HABIT_COLORS } from "@/utils/utils";
 import { todayISO } from "./utils";
-import type { Habit, Frequency, BackendHabit, HabitStats } from "@/type";
+import type {
+  Habit,
+  Frequency,
+  BackendHabit,
+  HabitStats,
+  ProfileStats,
+} from "@/type";
 
 //error for registration
 function extractRegisterError(error: any): string {
@@ -147,7 +153,9 @@ export async function loginUser(data: { email: string; password: string }) {
       try {
         errorData = await res.json();
       } catch {
-        throw new Error(res.status === 401 ? "Invalid credentials." : `Error ${res.status}`);
+        throw new Error(
+          res.status === 401 ? "Invalid credentials." : `Error ${res.status}`,
+        );
       }
       const errorMessage = extractLoginError(errorData);
       throw new Error(errorMessage);
@@ -260,7 +268,7 @@ function hexToColorName(hex: string): string {
 //conversion from backend to frontend
 function mapHabit(raw: BackendHabit): Habit {
   const checkInDates = raw.checkins.map((c) => c.date);
-  const today = todayISO()
+  const today = todayISO();
 
   return {
     id: String(raw.id),
@@ -365,4 +373,18 @@ export async function fetchHabitStats(habitId: string): Promise<HabitStats> {
   const res = await authFetch(`${API_URL}/habits/${habitId}/stats/`);
   if (!res.ok) throw new Error("Failed to fetch stats");
   return res.json();
+}
+
+//profile stats
+export async function fetchProfileStats(): Promise<ProfileStats> {
+  const res = await authFetch(`${API_URL}/profile/stats/`);
+  if (!res.ok) throw new Error("Failed to fetch profile stats");
+  const data = await res.json();
+
+  return {
+    totalHabits: data.total_habits,
+    totalCheckIns: data.total_checkins,
+    currentStreak: data.current_streak,
+    longestStreak: data.longest_streak,
+  };
 }

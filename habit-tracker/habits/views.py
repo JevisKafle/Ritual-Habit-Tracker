@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from django.utils import timezone
 from rest_framework.decorators import action
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets, permissions, status
 from .serializers import HabitCheckInSerializer, HabitSerializer, HabitCreateSerializer
@@ -127,3 +128,45 @@ class HabitCheckInViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return HabitCheckIn.objects.filter(habit__user=self.request.user)
+
+
+class ProfileStatsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        habits = Habit.objects.filter(user=request.user)
+        total_habits = habits.count()
+
+        all_dates = set()
+        longest_streak_overall = 0
+        current_streaks = []
+
+        for habit in habits:
+            dates = set(habit.checkins.values_list("date", flat=True))
+            all_dates.update(dates)
+
+            # current streak
+            streak = 0
+            day = timezone.now().date()
+            while day in dates:
+                streak += 1
+                day -= timedelta(days=1)
+            current_streaks.append(streak)
+
+            # longest streak
+            sorted_dates = sorted(dates)
+            run = 0
+            prev = None
+            for d in sorted_dates:
+                if prev and (d - prev).days == 1:
+                    run += 1
+                else:
+                    run = 1
+                longest_streak_overall = max(longest_streak_overall,run)
+                prev = d
+        return Response({
+            "total_habits": total_habits,
+            "total_checkins":len(all_dates) if total_habits else 0,
+            "current_streak":max(current_streaks) if current_streaks else 0,
+            "longest_streak":longest_streak_overall
+        })
