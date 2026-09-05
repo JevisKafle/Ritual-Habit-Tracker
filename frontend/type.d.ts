@@ -94,3 +94,8 @@ export interface LandingPageProps {
     onGoToHabits: () => void;
 }
 
+type HabitHeatmapProps = {
+    checkIns: string[]; 
+    color: string;
+    weeksToShow?: number;
+};
