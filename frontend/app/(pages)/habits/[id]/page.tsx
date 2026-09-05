@@ -9,8 +9,11 @@ import {
 } from "@/components/ui/card";
 import HabitHeatmap from "@/components/HabitHeatmap";
 import { Button } from "@/components/ui/button";
-import { useHabits, useHabitStats, useCheckIn, useUndoCheckIn } from "@/lib/queries";
-import { Flame, Trophy, BarChart3, CheckCircle2 } from "lucide-react";
+import { useHabits, useHabitStats, useCheckIn, useUndoCheckIn, useDeleteHabit } from "@/lib/queries";
+import { Flame, Trophy, BarChart3, CheckCircle2, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner"
+
 
 const HabitDetailPage = () => {
     const { id } = useParams<{ id: string }>()
@@ -22,6 +25,8 @@ const HabitDetailPage = () => {
 
     const checkIn = useCheckIn();
     const undoCheckIn = useUndoCheckIn();
+    const router = useRouter();
+    const deleteHabit = useDeleteHabit();
 
     const handleToggleCheckIn = () => {
         if (!habit) return
@@ -31,6 +36,18 @@ const HabitDetailPage = () => {
             checkIn.mutate({ habitId: habit.id })
         }
     }
+    const handleDelete = () => {
+        if (!habit) return;
+        deleteHabit.mutate(habit.id, {
+            onSuccess: () => {
+                toast.success(`${habit.title} has been deleted`,{ position: "bottom-left" });
+                router.push("/home");
+            },
+            onError: () => {
+                toast.error("Failed to delete habit",{ position: "bottom-left" });
+            },
+        });
+    };
 
     if (habitsLoading) return <div>Loading...</div>;
     if (!habit) return <div>Habit not found</div>;
@@ -70,6 +87,14 @@ const HabitDetailPage = () => {
                                 </span>
                             </CardContent>
                         </div>
+                        <button
+                            onClick={handleDelete}
+                            disabled={deleteHabit.isPending}
+                            className="p-2 rounded-lg text-error hover:bg-error/10 transition-colors disabled:opacity-50 cursor-pointer"
+                            aria-label="Delete habit"
+                        >
+                            <Trash2 className="w-5 h-5" />
+                        </button>
                     </div>
                 </CardHeader>
             </Card>
