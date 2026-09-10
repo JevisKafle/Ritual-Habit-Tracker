@@ -13,6 +13,7 @@ import { useHabits, useHabitStats, useCheckIn, useUndoCheckIn, useDeleteHabit } 
 import { Flame, Trophy, BarChart3, CheckCircle2, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner"
+import { notFound } from "next/navigation";
 
 
 const HabitDetailPage = () => {
@@ -50,7 +51,9 @@ const HabitDetailPage = () => {
     };
 
     if (habitsLoading) return <div>Loading...</div>;
-    if (!habit) return <div>Habit not found</div>;
+    if (!habit){
+        notFound();
+    };
 
     const statCards = [
         { icon: <Flame className="w-6 h-6 text-primary" />, value: `${stats?.current_streak ?? "-"}d`, label: "Current streak" },
