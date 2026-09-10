@@ -14,6 +14,7 @@ import { Flame, Trophy, BarChart3, CheckCircle2, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner"
 import { notFound } from "next/navigation";
+import HabitDetailSkeleton from "@/components/HabitDetailSkeleton";
 
 
 const HabitDetailPage = () => {
@@ -41,17 +42,17 @@ const HabitDetailPage = () => {
         if (!habit) return;
         deleteHabit.mutate(habit.id, {
             onSuccess: () => {
-                toast.success(`${habit.title} has been deleted`,{ position: "bottom-left" });
+                toast.success(`${habit.title} has been deleted`, { position: "bottom-left" });
                 router.push("/home");
             },
             onError: () => {
-                toast.error("Failed to delete habit",{ position: "bottom-left" });
+                toast.error("Failed to delete habit", { position: "bottom-left" });
             },
         });
     };
 
-    if (habitsLoading) return <div>Loading...</div>;
-    if (!habit){
+    if (habitsLoading) return <HabitDetailSkeleton />;
+    if (!habit) {
         notFound();
     };
 
