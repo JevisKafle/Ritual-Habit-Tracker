@@ -1,5 +1,6 @@
 import environ
 from pathlib import Path
+import ssl
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,6 +21,17 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
 
 
 # Application definition
+CELERY_BROKER_URL = env("REDIS_URL")
+CELERY_RESULT_BACKEND = env("REDIS_URL")
+
+CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
+CELERY_REDIS_BACKEND_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE}
+
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = "UTC"
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -31,6 +43,8 @@ INSTALLED_APPS = [
     # 3rd party
     "rest_framework",
     "corsheaders",
+    "anymail",
+    "django_celery_beat",
     # local
     "habits",
     "accounts",
@@ -49,6 +63,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "core.urls"
+
 
 TEMPLATES = [
     {
@@ -122,7 +137,18 @@ MAILERS = {
     "default": {
         "BACKEND": "django.core.mail.backends.console.EmailBackend",
     },
+    "resend": {
+        "BACKEND": "anymail.backends.resend.EmailBackend",
+        "OPTIONS": {
+            "api_key": env("RESEND_API_KEY"),
+        },
+    },
 }
+
+if not DEBUG:
+    MAILERS["default"] = MAILERS["resend"]
+
+DEFAULT_FROM_EMAIL = "Ritual <onboarding@resend.dev>"
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 
@@ -141,13 +167,13 @@ REST_FRAMEWORK = {
     ),
 }
 
-#redis (upstash)
+# redis (upstash)
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": env("REDIS_URL"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
+        },
     }
 }
