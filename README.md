@@ -93,8 +93,6 @@ All habit and checkin endpoints require authentication and are scoped to the req
 ## Roadmap
 
 - [ ] Weekly-habit-aware streak logic (currently daily-only)
-- [ ] Per-habit-card streak display
-- [ ] Public landing page for logged-out visitors
 - [ ] Google OAuth
 - [ ] Dark mode
 
